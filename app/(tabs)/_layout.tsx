@@ -20,6 +20,23 @@ function UploadTabButton() {
   );
 }
 
+// Intercepts the tap and pushes straight to info-detail instead of letting
+// expo-router actually focus this tab. If the tab itself were focused, its
+// <Redirect> would re-fire every time it regains focus — including right
+// after pressing Back — making Back appear completely broken.
+function AuthorTabButton({ focused }: { focused: boolean }) {
+  const router = useRouter();
+  return (
+    <TouchableOpacity
+      style={styles.uploadWrap}
+      onPress={() => router.push('/info-detail?page=builder')}
+      activeOpacity={0.7}
+    >
+      <Ionicons name={focused ? 'body' : 'body-outline'} size={23} color={focused ? C.maroon : C.muted} />
+    </TouchableOpacity>
+  );
+}
+
 export default function TabLayout() {
   return (
     <Tabs
@@ -64,9 +81,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="author"
         options={{
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'body' : 'body-outline'} size={23} color={color} />
-          ),
+          // Never actually becomes the focused tab — see AuthorTabButton.
+          tabBarButton: () => <AuthorTabButton focused={false} />,
         }}
       />
       <Tabs.Screen

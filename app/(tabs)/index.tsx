@@ -75,7 +75,7 @@ export default function HomeScreen() {
         </View>
 
         {/* ── About the creator ── */}
-        <AnimatedPressable onPress={() => router.push('/(tabs)/author')} style={styles.creatorCard}>
+        <AnimatedPressable onPress={() => router.push('/info-detail?page=builder')} style={styles.creatorCard}>
           <Image source={AnanyaPortrait} style={styles.creatorPhoto} />
           <View style={styles.creatorText}>
             <Text style={styles.creatorName}>Ananya Sharma</Text>
@@ -83,6 +83,11 @@ export default function HomeScreen() {
           </View>
           <Ionicons name="chevron-forward" size={18} color={C.muted} />
         </AnimatedPressable>
+
+        {/* ── Prominent brand logo ── */}
+        <View style={styles.brandLogoWrap}>
+          <Image source={NatyamAILogo} style={styles.brandLogo} resizeMode="contain" />
+        </View>
 
         {/* ── Purpose ── */}
         <View style={styles.purposeSection}>
@@ -206,6 +211,16 @@ const styles = StyleSheet.create({
   creatorText: { flex: 1 },
   creatorName: { fontSize: 16, fontFamily: F.serifBold, color: C.text },
   creatorRole: { fontSize: 12, color: C.muted, marginTop: 2 },
+
+  // Prominent brand logo
+  brandLogoWrap: {
+    alignItems: 'center', marginBottom: 22, paddingHorizontal: 40,
+  },
+  brandLogo: {
+    width: 220, height: 220, borderRadius: 24,
+    shadowColor: C.maroonDeep, shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.18, shadowRadius: 18, elevation: 6,
+  },
 
   // Purpose
   purposeSection: { paddingHorizontal: 16, marginBottom: 20 },

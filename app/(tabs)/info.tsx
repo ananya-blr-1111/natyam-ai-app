@@ -37,7 +37,7 @@ export default function AccountScreen() {
         {/* ── Profile cover (maroon hero band, matching natyam.dance) ── */}
         <View style={styles.cover}>
           <View style={styles.coverGradient} />
-          <AnimatedPressable onPress={() => router.push('/(tabs)/author')} style={styles.coverLogoWrap}>
+          <AnimatedPressable onPress={() => router.push('/info-detail?page=builder')} style={styles.coverLogoWrap}>
             <Image source={NatyamAILogo} style={styles.coverLogo} resizeMode="cover" />
           </AnimatedPressable>
           <View style={styles.avatarWrap}>
