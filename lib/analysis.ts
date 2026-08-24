@@ -3,23 +3,31 @@ import * as VideoThumbnails from 'expo-video-thumbnails';
 
 const CLAUDE_API_KEY = process.env.EXPO_PUBLIC_CLAUDE_API_KEY ?? '';
 
-// ─── Palette (shared across screens) ─────────────────────────────────────────
+// ─── Palette (shared across screens) — matches natyam.dance's Chettinad theme ─
 export const C = {
-  bg:          '#000000',
-  card:        '#111111',
-  card2:       '#1c1c1c',
-  border:      '#2a2a2a',
-  purple:      '#7b2fbe',
-  purpleLight: '#9d5fe8',
-  purpleFaint: 'rgba(123,47,190,0.15)',
-  gold:        '#f0c040',
-  goldDark:    '#b8900a',
-  goldFaint:   'rgba(240,192,64,0.10)',
-  text:        '#ffffff',
-  textSub:     '#8e8e8e',
-  muted:       '#8e8e8e',
-  green:       '#22c55e',
-  red:         '#ef4444',
+  bg:          '#faf6ee',   // cream
+  card:        '#ffffff',
+  card2:       '#f3ead9',   // alt section tint
+  border:      '#eadfc9',
+  maroon:      '#5e1a24',
+  maroonDeep:  '#41111a',
+  maroonFaint: 'rgba(94,26,36,0.08)',
+  gold:        '#c9962e',
+  goldSoft:    '#e3c27a',
+  goldFaint:   'rgba(201,150,46,0.12)',
+  goldText:    '#8a6415',   // darker, readable-as-text variant of gold (on cream/white)
+  text:        '#33222a',   // ink
+  textSub:     '#6b574f',
+  muted:       '#8a756d',
+  green:       '#2f7d4f',
+  red:         '#a13a3a',
+};
+
+// ─── Type (Cormorant Garamond, same as the website) ──────────────────────────
+export const F = {
+  serif:     'CormorantGaramond_600SemiBold',
+  serifBold: 'CormorantGaramond_700Bold',
+  serifItal: 'CormorantGaramond_500Medium_Italic',
 };
 
 // ─── SQLite ───────────────────────────────────────────────────────────────────
@@ -57,7 +65,7 @@ export function extractScore(text: string): number {
 export function scoreColor(s: number): string {
   if (s === 0)  return C.red;
   if (s >= 80)  return C.green;
-  if (s >= 60)  return C.gold;
+  if (s >= 60)  return C.goldText;
   return C.red;
 }
 

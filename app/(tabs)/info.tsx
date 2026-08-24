@@ -9,9 +9,9 @@ import {
   View,
 } from 'react-native';
 
-import { C } from '@/lib/analysis';
+import { C, F } from '@/lib/analysis';
 
-const Logo = require('@/assets/images/NatyamAIlogo.png');
+const NatyamAILogo = require('@/assets/images/natyam-logo-black.png');
 
 type InfoItem = {
   id: 'about' | 'builder' | 'version';
@@ -22,7 +22,7 @@ type InfoItem = {
 
 const INFO_ITEMS: InfoItem[] = [
   { id: 'about',   icon: 'information-circle-outline', label: 'About This App',   sub: 'What is NatyamAI and how it works' },
-  { id: 'builder', icon: 'person-circle-outline',      label: 'Meet the Builder', sub: 'The team behind the app' },
+  { id: 'builder', icon: 'person-circle-outline',      label: 'Meet the Builder', sub: 'The dancer behind the app' },
   { id: 'version', icon: 'layers-outline',             label: 'Version & Info',   sub: "What's new and legal info" },
 ];
 
@@ -33,16 +33,16 @@ export default function AccountScreen() {
     <View style={styles.root}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
 
-        {/* ── Profile cover ── */}
+        {/* ── Profile cover (maroon hero band, matching natyam.dance) ── */}
         <View style={styles.cover}>
           <View style={styles.coverGradient} />
-          <Image source={Logo} style={styles.coverLogo} resizeMode="contain" />
+          <Image source={NatyamAILogo} style={styles.coverLogo} resizeMode="cover" />
           <View style={styles.avatarWrap}>
             <View style={styles.avatar}>
-              <Ionicons name="person" size={28} color={C.text} />
+              <Ionicons name="person" size={28} color={C.gold} />
             </View>
             <View style={styles.profileInfo}>
-              <Text style={styles.profileEmail}>Bharatnatyam Student</Text>
+              <Text style={styles.profileEmail}>Bharatanatyam Student</Text>
               <Text style={styles.profileSub}>Analyses saved on this device</Text>
             </View>
           </View>
@@ -55,9 +55,9 @@ export default function AccountScreen() {
             onPress={() => router.push('/(tabs)/analyses')}
             activeOpacity={0.85}
           >
-            <Ionicons name="bar-chart-outline" size={18} color={C.text} />
+            <Ionicons name="bar-chart-outline" size={18} color={C.maroonDeep} />
             <Text style={styles.myAnalysesBtnTxt}>My Analyses</Text>
-            <Ionicons name="chevron-forward" size={16} color={C.text + '80'} style={{ marginLeft: 'auto' }} />
+            <Ionicons name="chevron-forward" size={16} color={C.maroonDeep} style={{ marginLeft: 'auto' }} />
           </TouchableOpacity>
         </View>
 
@@ -77,7 +77,7 @@ export default function AccountScreen() {
               activeOpacity={0.75}
             >
               <View style={styles.menuIcon}>
-                <Ionicons name={item.icon} size={20} color={C.gold} />
+                <Ionicons name={item.icon} size={20} color={C.maroon} />
               </View>
               <View style={styles.menuText}>
                 <Text style={styles.menuLabel}>{item.label}</Text>
@@ -96,42 +96,43 @@ export default function AccountScreen() {
 }
 
 const styles = StyleSheet.create({
-  root:   { flex: 1, backgroundColor: '#000000' },
+  root:   { flex: 1, backgroundColor: C.bg },
   scroll: { paddingBottom: 48 },
 
-  // Cover
+  // Cover — maroon gradient hero band, same feel as the natyam.dance headers
   cover: {
     height: 220, position: 'relative',
     justifyContent: 'flex-end', paddingHorizontal: 20, paddingBottom: 20,
-    marginBottom: 24,
+    marginBottom: 24, overflow: 'hidden',
   },
   coverGradient: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#000000',
+    backgroundColor: C.maroon,
   },
   coverLogo: {
-    position: 'absolute', top: 58, left: 20, width: 140, height: 44,
+    position: 'absolute', top: 52, left: 20,
+    width: 64, height: 64, borderRadius: 16,
+    borderWidth: 1, borderColor: 'rgba(227,194,122,0.4)',
   },
   avatarWrap: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   avatar:     {
     width: 60, height: 60, borderRadius: 30,
-    backgroundColor: C.purple, alignItems: 'center', justifyContent: 'center',
-    borderWidth: 2.5, borderColor: C.purpleLight,
+    backgroundColor: C.maroonDeep, alignItems: 'center', justifyContent: 'center',
+    borderWidth: 2.5, borderColor: C.gold,
   },
   profileInfo:   {},
-  profileEmail:  { fontSize: 15, fontWeight: '700', color: C.text },
-  profileSub:    { fontSize: 12, color: C.muted, marginTop: 2 },
+  profileEmail:  { fontSize: 15, fontWeight: '700', color: '#fff' },
+  profileSub:    { fontSize: 12, color: C.goldSoft, marginTop: 2 },
 
   section: { paddingHorizontal: 20, marginBottom: 28 },
 
   myAnalysesBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: C.purple, borderRadius: 14, paddingVertical: 14, paddingHorizontal: 18,
-    borderBottomWidth: 3, borderBottomColor: '#4a1a80',
-    shadowColor: '#4a1a80', shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1, shadowRadius: 0, elevation: 6,
+    backgroundColor: C.gold, borderRadius: 16, paddingVertical: 14, paddingHorizontal: 18,
+    shadowColor: C.gold, shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3, shadowRadius: 8, elevation: 4,
   },
-  myAnalysesBtnTxt: { fontSize: 16, fontWeight: '700', color: C.text },
+  myAnalysesBtnTxt: { fontSize: 16, fontWeight: '700', color: C.maroonDeep },
 
   sectionLabel: {
     fontSize: 11, fontWeight: '700', color: C.muted,
@@ -140,8 +141,8 @@ const styles = StyleSheet.create({
   menuGroup: { marginHorizontal: 20 },
   menuRow: {
     flexDirection: 'row', alignItems: 'center', gap: 14,
-    backgroundColor: '#111111', paddingVertical: 14, paddingHorizontal: 16,
-    borderWidth: 1, borderColor: '#2a2a2a', borderTopWidth: 0,
+    backgroundColor: C.card, paddingVertical: 14, paddingHorizontal: 16,
+    borderWidth: 1, borderColor: C.border, borderTopWidth: 0,
   },
   menuRowFirst: { borderTopWidth: 1, borderTopLeftRadius: 16, borderTopRightRadius: 16 },
   menuRowLast:  { borderBottomLeftRadius: 16, borderBottomRightRadius: 16 },
@@ -154,5 +155,5 @@ const styles = StyleSheet.create({
   menuLabel: { fontSize: 15, fontWeight: '600', color: C.text },
   menuSub:   { fontSize: 12, color: C.muted, marginTop: 2 },
 
-  version: { textAlign: 'center', color: C.border, fontSize: 12, marginTop: 36 },
+  version: { textAlign: 'center', color: C.muted, fontSize: 12, marginTop: 36 },
 });

@@ -6,44 +6,51 @@ export const aboutHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: #f0e6ff;
+      background: #faf6ee;
+      color: #33222a;
       padding: 24px 20px 40px;
       line-height: 1.7;
     }
     h1 {
-      font-size: 26px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 30px;
       font-weight: 700;
-      color: #f0c040;
+      color: #5e1a24;
       margin-bottom: 6px;
     }
     .subtitle {
-      font-size: 14px;
-      color: #c9a0dc;
+      font-size: 13px;
+      color: #c9962e;
       margin-bottom: 28px;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       text-transform: uppercase;
+      font-weight: 700;
     }
     .card {
-      background: rgba(123, 47, 190, 0.2);
-      border: 1px solid rgba(123, 47, 190, 0.4);
+      background: #ffffff;
+      border: 1px solid #eadfc9;
       border-radius: 14px;
       padding: 20px;
       margin-bottom: 18px;
+      box-shadow: 0 4px 14px rgba(65,17,26,0.06);
     }
     .card h2 {
-      font-size: 17px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 20px;
       font-weight: 600;
-      color: #c9a0dc;
+      color: #5e1a24;
       margin-bottom: 10px;
     }
     .card p {
       font-size: 15px;
-      color: #e8d5ff;
+      color: #33222a;
     }
     .card p + p {
       margin-top: 10px;
@@ -54,22 +61,24 @@ export const aboutHtml = `<!DOCTYPE html>
     }
     ul li {
       font-size: 15px;
-      color: #e8d5ff;
+      color: #33222a;
       margin-bottom: 6px;
     }
     .highlight {
-      color: #f0c040;
+      color: #8a6415;
       font-weight: 600;
     }
     .quote {
+      font-family: 'Cormorant Garamond', Georgia, serif;
       font-style: italic;
-      border-left: 3px solid #f0c040;
+      font-size: 17px;
+      border-left: 3px solid #c9962e;
       padding-left: 14px;
-      color: #f0e6ff;
+      color: #5e1a24;
     }
     .link {
-      color: #f0c040;
-      font-weight: 600;
+      color: #8a6415;
+      font-weight: 700;
       text-decoration: none;
     }
   </style>
@@ -91,14 +100,21 @@ export const aboutHtml = `<!DOCTYPE html>
 
   <div class="card">
     <h2>How It Works</h2>
-    <p>Select a video of your Bharatanatyam performance from your library. The app will:</p>
+    <p>Select a video of your Bharatanatyam performance from your library. NatyamAI will:</p>
     <ul>
-      <li>Extract key frames from your video</li>
-      <li>Analyse your posture using Claude AI</li>
-      <li>Score your performance out of 100</li>
-      <li>Identify posture issues and strengths</li>
-      <li>Give you your top 3 improvement tips</li>
+      <li><span class="highlight">Record</span> — start with any practice clip of an adavu, jathi or full item</li>
+      <li><span class="highlight">Analyse</span> — Claude AI reviews posture, mudra accuracy, facial expression and rhythmic timing frame by frame</li>
+      <li><span class="highlight">Feedback</span> — clear, encouraging notes highlight what's working and what to adjust, in plain language</li>
+      <li><span class="highlight">Improve</span> — personalised recommendations guide your next practice session, building steady, measurable progress</li>
     </ul>
+  </div>
+
+  <div class="card">
+    <h2>What NatyamAI Looks At</h2>
+    <p><span class="highlight">Posture &amp; Mudra</span> — body alignment, stance and hand gestures against correct form, so you can self-correct between classes.</p>
+    <p><span class="highlight">Abhinaya</span> — facial expression and emotional storytelling, with feedback on how clearly your bhava comes across.</p>
+    <p><span class="highlight">Laya</span> — rhythmic precision and timing against the taalam, highlighting where footwork drifts ahead of or behind the beat.</p>
+    <p><span class="highlight">Personalised Feedback</span> — all three come together into tailored, encouraging notes, so you know exactly what to practise next.</p>
   </div>
 
   <div class="card">
@@ -142,12 +158,15 @@ export const builderHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: #f0e6ff;
+      background: #faf6ee;
+      color: #33222a;
       padding: 24px 20px 40px;
       line-height: 1.7;
     }
@@ -155,7 +174,7 @@ export const builderHtml = `<!DOCTYPE html>
       width: 90px;
       height: 90px;
       border-radius: 45px;
-      background: linear-gradient(135deg, #7b2fbe, #f0c040);
+      background: linear-gradient(135deg, #5e1a24, #c9962e);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -163,44 +182,49 @@ export const builderHtml = `<!DOCTYPE html>
       margin: 0 auto 16px;
       text-align: center;
       line-height: 90px;
+      border: 2px solid #e3c27a;
     }
     h1 {
-      font-size: 24px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 28px;
       font-weight: 700;
-      color: #f0c040;
+      color: #5e1a24;
       text-align: center;
       margin-bottom: 4px;
     }
     .role {
-      font-size: 14px;
-      color: #c9a0dc;
+      font-size: 13px;
+      color: #c9962e;
       text-align: center;
       margin-bottom: 28px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      font-weight: 700;
     }
     .card {
-      background: rgba(123, 47, 190, 0.2);
-      border: 1px solid rgba(123, 47, 190, 0.4);
+      background: #ffffff;
+      border: 1px solid #eadfc9;
       border-radius: 14px;
       padding: 20px;
       margin-bottom: 18px;
+      box-shadow: 0 4px 14px rgba(65,17,26,0.06);
     }
     .card h2 {
-      font-size: 17px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 20px;
       font-weight: 600;
-      color: #c9a0dc;
+      color: #5e1a24;
       margin-bottom: 10px;
     }
     .card p {
       font-size: 15px;
-      color: #e8d5ff;
+      color: #33222a;
     }
     .card p + p {
       margin-top: 10px;
     }
     .highlight {
-      color: #f0c040;
+      color: #8a6415;
       font-weight: 600;
     }
     .tag-row {
@@ -210,16 +234,17 @@ export const builderHtml = `<!DOCTYPE html>
       margin-top: 10px;
     }
     .tag {
-      background: rgba(240, 192, 64, 0.15);
-      border: 1px solid rgba(240, 192, 64, 0.4);
-      color: #f0c040;
+      background: rgba(201, 150, 46, 0.12);
+      border: 1px solid #c9962e;
+      color: #8a6415;
       font-size: 13px;
+      font-weight: 600;
       padding: 4px 12px;
       border-radius: 20px;
     }
     .link {
-      color: #f0c040;
-      font-weight: 600;
+      color: #8a6415;
+      font-weight: 700;
       text-decoration: none;
     }
   </style>
@@ -295,12 +320,15 @@ export const versionHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: #f0e6ff;
+      background: #faf6ee;
+      color: #33222a;
       padding: 24px 20px 40px;
       line-height: 1.7;
     }
@@ -309,29 +337,33 @@ export const versionHtml = `<!DOCTYPE html>
       margin-bottom: 28px;
     }
     .version-number {
-      font-size: 48px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 52px;
       font-weight: 700;
-      color: #f0c040;
+      color: #5e1a24;
       line-height: 1.1;
     }
     .version-label {
-      font-size: 13px;
-      color: #c9a0dc;
+      font-size: 12px;
+      color: #c9962e;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
+      font-weight: 700;
       margin-top: 4px;
     }
     .card {
-      background: rgba(123, 47, 190, 0.2);
-      border: 1px solid rgba(123, 47, 190, 0.4);
+      background: #ffffff;
+      border: 1px solid #eadfc9;
       border-radius: 14px;
       padding: 20px;
       margin-bottom: 18px;
+      box-shadow: 0 4px 14px rgba(65,17,26,0.06);
     }
     .card h2 {
-      font-size: 17px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 20px;
       font-weight: 600;
-      color: #c9a0dc;
+      color: #5e1a24;
       margin-bottom: 12px;
     }
     .info-row {
@@ -339,36 +371,36 @@ export const versionHtml = `<!DOCTYPE html>
       justify-content: space-between;
       align-items: center;
       padding: 8px 0;
-      border-bottom: 1px solid rgba(201, 160, 220, 0.15);
+      border-bottom: 1px solid #eadfc9;
       font-size: 14px;
     }
     .info-row:last-child { border-bottom: none; }
-    .info-label { color: #c9a0dc; }
-    .info-value { color: #f0e6ff; font-weight: 500; }
+    .info-label { color: #6b574f; }
+    .info-value { color: #33222a; font-weight: 600; }
     .changelog-item {
       padding: 10px 0;
-      border-bottom: 1px solid rgba(201, 160, 220, 0.15);
+      border-bottom: 1px solid #eadfc9;
     }
     .changelog-item:last-child { border-bottom: none; }
     .changelog-version {
       font-size: 13px;
-      font-weight: 600;
-      color: #f0c040;
+      font-weight: 700;
+      color: #8a6415;
       margin-bottom: 4px;
     }
     .changelog-item p {
       font-size: 14px;
-      color: #e8d5ff;
+      color: #33222a;
     }
     .legal {
       font-size: 12px;
-      color: #8a6a9a;
+      color: #6b574f;
       text-align: center;
       margin-top: 8px;
     }
     .link {
-      color: #f0c040;
-      font-weight: 600;
+      color: #8a6415;
+      font-weight: 700;
       text-decoration: none;
     }
   </style>

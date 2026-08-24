@@ -12,12 +12,13 @@ import {
   View,
 } from 'react-native';
 
+import { CtaButton } from '@/components/cta-button';
 import {
-  C, formatDate, parseSection, parseSummary, scoreColor, scoreLabel,
+  C, F, formatDate, parseSection, parseSummary, scoreColor, scoreLabel,
 } from '@/lib/analysis';
 import { analysisStore } from '@/store/analysisStore';
 
-const Logo = require('@/assets/images/NatyamAIlogo.png');
+const NatyamAILogo = require('@/assets/images/natyam-logo-white.png');
 
 // ─── Collapsible section ──────────────────────────────────────────────────────
 function Section({ title, icon, color, items, numbered }: {
@@ -76,18 +77,18 @@ export default function ResultScreen() {
   const color        = scoreColor(score);
 
   const doShare = () =>
-    Share.share({ message: `My Bharatnatyam Posture Score: ${score}/100\n\n${result}` });
+    Share.share({ message: `My Bharatanatyam Posture Score: ${score}/100\n\n${result}` });
 
   return (
     <View style={styles.root}>
       {/* Nav */}
       <View style={styles.navBar}>
         <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={20} color={C.text} />
+          <Ionicons name="arrow-back" size={20} color={C.maroon} />
         </TouchableOpacity>
         <Text style={styles.navTitle}>Analysis Result</Text>
         <TouchableOpacity style={styles.backBtn} onPress={doShare}>
-          <Ionicons name="share-outline" size={20} color={C.gold} />
+          <Ionicons name="share-outline" size={20} color={C.maroon} />
         </TouchableOpacity>
       </View>
 
@@ -96,7 +97,10 @@ export default function ResultScreen() {
         {/* ── Share card (screenshot-friendly) ── */}
         <View style={styles.shareCard}>
           <View style={styles.shareCardTop}>
-            <Image source={Logo} style={styles.shareCardLogo} resizeMode="contain" />
+            <View style={styles.shareCardBrand}>
+              <Image source={NatyamAILogo} style={styles.shareCardLogoImg} />
+              <Text style={styles.shareCardLogo}>NatyamAI</Text>
+            </View>
             <Text style={styles.shareCardDate}>{formatDate(created_at)}</Text>
           </View>
 
@@ -125,8 +129,8 @@ export default function ResultScreen() {
                   <Text style={styles.statLbl}>Strengths</Text>
                 </View>
                 <View style={styles.statPill}>
-                  <Ionicons name="arrow-up-circle-outline" size={12} color={C.gold} />
-                  <Text style={[styles.statNum, { color: C.gold }]}>{improvements.length}</Text>
+                  <Ionicons name="arrow-up-circle-outline" size={12} color={C.goldText} />
+                  <Text style={[styles.statNum, { color: C.goldText }]}>{improvements.length}</Text>
                   <Text style={styles.statLbl}>Tips</Text>
                 </View>
               </View>
@@ -139,10 +143,7 @@ export default function ResultScreen() {
             </View>
           ) : null}
 
-          <TouchableOpacity style={styles.shareBtn} onPress={doShare} activeOpacity={0.85}>
-            <Ionicons name="share-social-outline" size={16} color={C.bg} />
-            <Text style={styles.shareBtnTxt}>Share Result</Text>
-          </TouchableOpacity>
+          <CtaButton label="Share My Score" icon="share-social-outline" onPress={doShare} />
         </View>
 
         {/* ── Expandable breakdown ── */}
@@ -155,17 +156,16 @@ export default function ResultScreen() {
           <Section title="Doing Well" icon="checkmark-circle-outline" color={C.green} items={strengths} />
         )}
         {improvements.length > 0 && (
-          <Section title="Top Improvements" icon="arrow-up-circle-outline" color={C.gold} items={improvements} numbered />
+          <Section title="Top Improvements" icon="arrow-up-circle-outline" color={C.goldText} items={improvements} numbered />
         )}
 
-        <TouchableOpacity
-          style={styles.newBtn}
+        <CtaButton
+          label="New Analysis"
+          icon="add-circle-outline"
+          variant="outline"
           onPress={() => { analysisStore.clear(); router.push('/analyze'); }}
-          activeOpacity={0.85}
-        >
-          <Ionicons name="add-circle-outline" size={18} color={C.gold} />
-          <Text style={styles.newBtnTxt}>New Analysis</Text>
-        </TouchableOpacity>
+          style={styles.newBtn}
+        />
 
       </ScrollView>
     </View>
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   root:    { flex: 1, backgroundColor: C.bg },
   emptyRoot: { flex: 1, backgroundColor: C.bg, alignItems: 'center', justifyContent: 'center', gap: 12 },
   emptyTxt:  { color: C.muted, fontSize: 16 },
-  emptyLink: { color: C.gold, fontSize: 15, fontWeight: '700' },
+  emptyLink: { color: C.maroon, fontSize: 15, fontWeight: '700' },
 
   navBar: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
@@ -184,25 +184,27 @@ const styles = StyleSheet.create({
   },
   backBtn:  {
     width: 36, height: 36, borderRadius: 18,
-    backgroundColor: C.card, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: C.card2, alignItems: 'center', justifyContent: 'center',
   },
-  navTitle: { fontSize: 17, fontWeight: '700', color: C.text },
+  navTitle: { fontSize: 18, fontFamily: F.serifBold, color: C.maroon },
 
   content: { paddingHorizontal: 16, paddingBottom: 60, paddingTop: 8 },
 
   shareCard: {
     backgroundColor: C.card, borderRadius: 24,
-    borderWidth: 1, borderColor: C.border, padding: 20, marginBottom: 24,
+    borderWidth: 1, borderColor: C.goldSoft, padding: 20, marginBottom: 24,
     ...Platform.select({
-      ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.4, shadowRadius: 12 },
-      android: { elevation: 8 },
+      ios: { shadowColor: C.maroonDeep, shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.15, shadowRadius: 12 },
+      android: { elevation: 6 },
     }),
   },
   shareCardTop:  {
     flexDirection: 'row', justifyContent: 'space-between',
     alignItems: 'center', marginBottom: 14,
   },
-  shareCardLogo: { width: 120, height: 36 },
+  shareCardBrand:   { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  shareCardLogoImg: { width: 28, height: 28, borderRadius: 8 },
+  shareCardLogo:    { fontSize: 18, fontFamily: F.serifBold, color: C.maroon },
   shareCardDate: { fontSize: 11, color: C.muted },
   shareThumb:    { width: '100%', height: 160, borderRadius: 14, marginBottom: 16 },
 
@@ -211,10 +213,10 @@ const styles = StyleSheet.create({
     width: 100, height: 100, borderRadius: 50, borderWidth: 3,
     alignItems: 'center', justifyContent: 'center',
   },
-  scoreBig:  { fontSize: 38, fontWeight: '900', lineHeight: 44 },
+  scoreBig:  { fontSize: 38, fontFamily: F.serifBold, lineHeight: 44 },
   scoreOf:   { fontSize: 11, color: C.muted, marginTop: 2 },
   scoreRight: { flex: 1 },
-  scoreWord:  { fontSize: 17, fontWeight: '700', marginBottom: 10 },
+  scoreWord:  { fontSize: 17, fontFamily: F.serifBold, marginBottom: 10 },
 
   statRow:  { flexDirection: 'row', gap: 6 },
   statPill: {
@@ -227,16 +229,9 @@ const styles = StyleSheet.create({
 
   summaryBox: {
     backgroundColor: C.card2, borderRadius: 12, padding: 14,
-    borderLeftWidth: 3, borderLeftColor: C.purple, marginBottom: 16,
+    borderLeftWidth: 3, borderLeftColor: C.gold, marginBottom: 16,
   },
   summaryTxt: { color: C.text, fontSize: 14, lineHeight: 22 },
-
-  shareBtn: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
-    backgroundColor: C.gold, borderRadius: 14, height: 48,
-    borderBottomWidth: 3, borderBottomColor: C.goldDark,
-  },
-  shareBtnTxt: { fontSize: 15, fontWeight: '800', color: C.bg },
 
   breakdownLabel: {
     fontSize: 11, fontWeight: '700', color: C.muted,
@@ -256,10 +251,5 @@ const styles = StyleSheet.create({
   bulletMark: { fontSize: 14, fontWeight: '700', marginTop: 1, minWidth: 18 },
   bulletTxt:  { flex: 1, color: C.text, fontSize: 14, lineHeight: 22 },
 
-  newBtn: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
-    backgroundColor: C.card, borderRadius: 14, height: 52,
-    borderWidth: 1, borderColor: C.border, marginTop: 16,
-  },
-  newBtnTxt: { fontSize: 15, fontWeight: '700', color: C.gold },
+  newBtn: { marginTop: 16, alignSelf: 'stretch' },
 });

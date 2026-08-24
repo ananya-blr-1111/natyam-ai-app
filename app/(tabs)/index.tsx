@@ -12,13 +12,14 @@ import {
   View,
 } from 'react-native';
 
+import { CtaButton } from '@/components/cta-button';
 import {
-  C, loadLocal,
+  C, F, loadLocal,
   scoreColor, setupDatabase,
 } from '@/lib/analysis';
 import { analysisStore } from '@/store/analysisStore';
 
-const NatyamAILogo = require('@/assets/images/NatyamAI.png');
+const NatyamAILogo = require('@/assets/images/natyam-logo-white.png');
 const { width } = Dimensions.get('window');
 const TILE = Math.floor((width - 2) / 3);
 
@@ -62,7 +63,7 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <Text style={styles.logoText}>NatyamAI</Text>
           <TouchableOpacity style={styles.iconBtn}>
-            <Ionicons name="notifications-outline" size={24} color="#fff" />
+            <Ionicons name="notifications-outline" size={22} color={C.maroon} />
           </TouchableOpacity>
         </View>
 
@@ -91,27 +92,26 @@ export default function HomeScreen() {
 
         {/* ── Bio ── */}
         <View style={styles.bioSection}>
-          <Text style={styles.bioTitle}>Bharatnatyam AI Coach</Text>
-          <Text style={styles.bioText}>AI feedback on posture · expressions · rhythm</Text>
-          <TouchableOpacity
-            style={styles.analyzeBtn}
+          <Text style={styles.bioTitle}>Bharatanatyam AI Coach</Text>
+          <Text style={styles.bioText}>AI feedback on your posture, mudra, abhinaya & rhythm</Text>
+          <CtaButton
+            label="New Analysis"
+            icon="add-circle-outline"
             onPress={() => router.push('/analyze')}
-            activeOpacity={0.85}
-          >
-            <Text style={styles.analyzeBtnTxt}>+ New Analysis</Text>
-          </TouchableOpacity>
+            style={styles.analyzeBtn}
+          />
         </View>
 
         {/* ── Grid toggle bar ── */}
         <View style={styles.toggleBar}>
           <View style={styles.toggleActive}>
-            <Ionicons name="grid-outline" size={20} color="#fff" />
+            <Ionicons name="grid-outline" size={20} color={C.maroon} />
           </View>
           <TouchableOpacity
             style={styles.toggleInactive}
             onPress={() => router.push('/(tabs)/analyses')}
           >
-            <Ionicons name="list-outline" size={22} color="#4a4a4a" />
+            <Ionicons name="list-outline" size={22} color={C.muted} />
           </TouchableOpacity>
         </View>
 
@@ -136,7 +136,7 @@ export default function HomeScreen() {
                   {item.thumbnail
                     ? <Image source={{ uri: item.thumbnail }} style={styles.tileImg} />
                     : <View style={[styles.tileImg, styles.tileEmpty]}>
-                        <Ionicons name="film-outline" size={22} color="#333" />
+                        <Ionicons name="film-outline" size={22} color={C.border} />
                       </View>
                   }
                   <View style={styles.scoreBadge}>
@@ -150,7 +150,7 @@ export default function HomeScreen() {
           </>
         ) : (
           <View style={styles.emptyState}>
-            <Ionicons name="videocam-outline" size={56} color="#2a2a2a" />
+            <Ionicons name="videocam-outline" size={56} color={C.border} />
             <Text style={styles.emptyTitle}>No analyses yet</Text>
             <Text style={styles.emptySub}>Tap the + below to upload your first dance video</Text>
           </View>
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingTop: 58, paddingHorizontal: 16, paddingBottom: 10,
   },
-  logoText: { fontSize: 26, fontWeight: '900', color: C.gold, letterSpacing: 0.5 },
+  logoText: { fontSize: 28, fontFamily: F.serifBold, color: C.maroon, letterSpacing: 0.5 },
   iconBtn:  { padding: 4 },
 
   // Profile strip
@@ -189,34 +189,27 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'space-around',
   },
   statItem:    { alignItems: 'center', gap: 3 },
-  statNum:     { fontSize: 22, fontWeight: '800', color: '#fff' },
-  statLbl:     { fontSize: 11, color: '#8e8e8e', fontWeight: '500' },
-  statDivider: { width: 1, height: 30, backgroundColor: '#222' },
+  statNum:     { fontSize: 22, fontFamily: F.serifBold, color: C.text },
+  statLbl:     { fontSize: 11, color: C.muted, fontWeight: '500' },
+  statDivider: { width: 1, height: 30, backgroundColor: C.border },
 
   // Bio
-  bioSection: { paddingHorizontal: 16, paddingBottom: 14, gap: 3 },
-  bioTitle:   { fontSize: 14, fontWeight: '700', color: '#fff' },
-  bioText:    { fontSize: 13, color: '#8e8e8e', lineHeight: 19 },
-  analyzeBtn: {
-    backgroundColor: '#1c1c1c',
-    borderRadius: 8, borderWidth: 1, borderColor: '#333',
-    paddingVertical: 7, paddingHorizontal: 16,
-    alignSelf: 'stretch', alignItems: 'center',
-    marginTop: 8,
-  },
-  analyzeBtnTxt: { fontSize: 14, fontWeight: '700', color: '#fff' },
+  bioSection: { paddingHorizontal: 16, paddingBottom: 18, gap: 3 },
+  bioTitle:   { fontSize: 15, fontWeight: '700', color: C.text },
+  bioText:    { fontSize: 13, color: C.muted, fontStyle: 'italic', lineHeight: 19, marginBottom: 4 },
+  analyzeBtn: { alignSelf: 'flex-start', height: 40, paddingHorizontal: 20, marginTop: 8 },
 
   // Toggle bar (like Instagram's grid/tag toggle)
   toggleBar: {
     flexDirection: 'row',
-    borderTopWidth: 0.5, borderTopColor: '#2a2a2a',
-    borderBottomWidth: 0.5, borderBottomColor: '#2a2a2a',
+    borderTopWidth: 0.5, borderTopColor: C.border,
+    borderBottomWidth: 0.5, borderBottomColor: C.border,
     height: 44, alignItems: 'center',
     marginBottom: 1,
   },
   toggleActive: {
     flex: 1, alignItems: 'center', justifyContent: 'center',
-    borderBottomWidth: 1.5, borderBottomColor: '#fff', height: '100%',
+    borderBottomWidth: 1.5, borderBottomColor: C.maroon, height: '100%',
   },
   toggleInactive: {
     flex: 1, alignItems: 'center', justifyContent: 'center',
@@ -227,7 +220,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16, paddingVertical: 10,
     alignItems: 'flex-end',
   },
-  seeAllLink: { fontSize: 13, color: C.gold, fontWeight: '600' },
+  seeAllLink: { fontSize: 13, color: C.goldText, fontWeight: '600' },
 
   // Instagram grid
   grid: {
@@ -237,10 +230,10 @@ const styles = StyleSheet.create({
   },
   tile:      { width: TILE, height: TILE, position: 'relative' },
   tileImg:   { width: TILE, height: TILE },
-  tileEmpty: { backgroundColor: '#111', alignItems: 'center', justifyContent: 'center' },
+  tileEmpty: { backgroundColor: C.card2, alignItems: 'center', justifyContent: 'center' },
   scoreBadge: {
     position: 'absolute', bottom: 6, left: 6,
-    backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 5,
+    backgroundColor: 'rgba(20,10,8,0.75)', borderRadius: 5,
     paddingHorizontal: 6, paddingVertical: 2,
   },
   scoreNum: { fontSize: 13, fontWeight: '800' },
@@ -250,6 +243,6 @@ const styles = StyleSheet.create({
     alignItems: 'center', paddingTop: 60, paddingBottom: 48, gap: 12,
     paddingHorizontal: 32,
   },
-  emptyTitle: { fontSize: 18, fontWeight: '700', color: '#fff' },
-  emptySub:   { fontSize: 14, color: '#8e8e8e', textAlign: 'center', lineHeight: 21 },
+  emptyTitle: { fontSize: 18, fontFamily: F.serifBold, color: C.text },
+  emptySub:   { fontSize: 14, color: C.muted, textAlign: 'center', lineHeight: 21 },
 });

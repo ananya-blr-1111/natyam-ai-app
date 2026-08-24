@@ -3,6 +3,7 @@ import { Tabs, useRouter } from 'expo-router';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
+import { C } from '@/lib/analysis';
 
 function UploadTabButton() {
   const router = useRouter();
@@ -13,7 +14,7 @@ function UploadTabButton() {
       activeOpacity={0.75}
     >
       <View style={styles.uploadBtn}>
-        <Ionicons name="add" size={26} color="#000000" />
+        <Ionicons name="add" size={26} color={C.maroonDeep} />
       </View>
     </TouchableOpacity>
   );
@@ -25,12 +26,12 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarActiveTintColor: '#ffffff',
-        tabBarInactiveTintColor: '#4a4a4a',
+        tabBarActiveTintColor: C.maroon,
+        tabBarInactiveTintColor: C.muted,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: '#000000',
-          borderTopColor: '#1c1c1c',
+          backgroundColor: C.card,
+          borderTopColor: C.border,
           borderTopWidth: 0.5,
           height: 56,
           paddingBottom: 4,
@@ -83,10 +84,10 @@ const styles = StyleSheet.create({
     width: 46,
     height: 32,
     borderRadius: 9,
-    backgroundColor: '#ffffff',
+    backgroundColor: C.gold,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1.5,
-    borderColor: '#888888',
+    borderColor: C.maroon,
   },
 });

@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import { aboutHtml, builderHtml, versionHtml } from '@/content';
+import { C } from '@/lib/analysis';
 
 const PAGE_TITLES: Record<string, string> = {
   about: 'About This App',
@@ -26,7 +27,7 @@ export default function InfoDetailScreen() {
     <View style={styles.container}>
       <View style={styles.navBar}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={20} color="#f0c040" />
+          <Ionicons name="chevron-back" size={20} color={C.maroon} />
         </TouchableOpacity>
       </View>
       <WebView
@@ -43,24 +44,24 @@ export default function InfoDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a0a0a',
+    backgroundColor: C.bg,
   },
   navBar: {
     paddingTop: 56,
     paddingHorizontal: 16,
     paddingBottom: 8,
-    backgroundColor: '#0a0a0a',
+    backgroundColor: C.bg,
   },
   backButton: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: 'rgba(123, 47, 190, 0.3)',
+    backgroundColor: C.card2,
     alignItems: 'center',
     justifyContent: 'center',
   },
   webview: {
     flex: 1,
-    backgroundColor: '#1a0533',
+    backgroundColor: C.bg,
   },
 });

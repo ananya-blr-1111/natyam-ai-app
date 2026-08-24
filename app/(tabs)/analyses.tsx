@@ -14,7 +14,7 @@ import {
   View,
 } from 'react-native';
 
-import { C, loadLocal, scoreColor, setupDatabase } from '@/lib/analysis';
+import { C, F, loadLocal, scoreColor, setupDatabase } from '@/lib/analysis';
 import { analysisStore } from '@/store/analysisStore';
 
 const { width } = Dimensions.get('window');
@@ -42,7 +42,7 @@ export default function AnalysesScreen() {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await loadHistory();
+    loadHistory();
     setRefreshing(false);
   };
 
@@ -67,7 +67,7 @@ export default function AnalysesScreen() {
         {item.thumbnail
           ? <Image source={{ uri: item.thumbnail }} style={styles.tileImg} />
           : <View style={[styles.tileImg, styles.tileEmpty]}>
-              <Ionicons name="film-outline" size={22} color="#333" />
+              <Ionicons name="film-outline" size={22} color={C.border} />
             </View>
         }
         <View style={styles.scoreBadge}>
@@ -91,7 +91,7 @@ export default function AnalysesScreen() {
       {/* ── Grid toggle bar ── */}
       <View style={styles.toggleBar}>
         <View style={styles.toggleActive}>
-          <Ionicons name="grid" size={18} color="#fff" />
+          <Ionicons name="grid" size={18} color={C.maroon} />
         </View>
       </View>
 
@@ -101,7 +101,7 @@ export default function AnalysesScreen() {
         </View>
       ) : history.length === 0 ? (
         <View style={styles.centered}>
-          <Ionicons name="videocam-outline" size={56} color="#2a2a2a" />
+          <Ionicons name="videocam-outline" size={56} color={C.border} />
           <Text style={styles.emptyTitle}>No analyses yet</Text>
           <Text style={styles.emptySub}>Tap + to analyze your first dance video</Text>
           <TouchableOpacity style={styles.emptyBtn} onPress={() => router.push('/analyze')}>
@@ -138,37 +138,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: 10,
     paddingTop: 60, paddingHorizontal: 16, paddingBottom: 12,
   },
-  headerTitle: { fontSize: 22, fontWeight: '800', color: '#fff' },
-  countTxt:    { fontSize: 14, color: '#8e8e8e', fontWeight: '500' },
+  headerTitle: { fontSize: 24, fontFamily: F.serifBold, color: C.maroon },
+  countTxt:    { fontSize: 14, color: C.muted, fontWeight: '500' },
 
   toggleBar: {
     flexDirection: 'row',
-    borderTopWidth: 0.5, borderTopColor: '#2a2a2a',
-    borderBottomWidth: 0.5, borderBottomColor: '#2a2a2a',
+    borderTopWidth: 0.5, borderTopColor: C.border,
+    borderBottomWidth: 0.5, borderBottomColor: C.border,
     height: 44, alignItems: 'center',
     marginBottom: 1,
   },
   toggleActive: {
     flex: 1, alignItems: 'center', justifyContent: 'center',
-    borderBottomWidth: 1.5, borderBottomColor: '#fff', height: '100%',
+    borderBottomWidth: 1.5, borderBottomColor: C.maroon, height: '100%',
   },
 
   centered:   { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, paddingHorizontal: 32 },
-  emptyTitle: { fontSize: 18, fontWeight: '700', color: '#fff' },
-  emptySub:   { fontSize: 14, color: '#8e8e8e', textAlign: 'center', lineHeight: 21 },
+  emptyTitle: { fontSize: 18, fontFamily: F.serifBold, color: C.text },
+  emptySub:   { fontSize: 14, color: C.muted, textAlign: 'center', lineHeight: 21 },
   emptyBtn:   {
-    backgroundColor: '#1c1c1c', borderRadius: 8,
-    borderWidth: 1, borderColor: '#333',
-    paddingVertical: 10, paddingHorizontal: 24, marginTop: 4,
+    backgroundColor: C.gold, borderRadius: 30,
+    paddingVertical: 12, paddingHorizontal: 26, marginTop: 4,
   },
-  emptyBtnTxt: { fontSize: 14, fontWeight: '700', color: '#fff' },
+  emptyBtnTxt: { fontSize: 13, fontWeight: '700', color: C.maroonDeep, letterSpacing: 0.5 },
 
   tile:      { width: TILE, height: TILE, position: 'relative' },
   tileImg:   { width: TILE, height: TILE },
-  tileEmpty: { backgroundColor: '#111', alignItems: 'center', justifyContent: 'center' },
+  tileEmpty: { backgroundColor: C.card2, alignItems: 'center', justifyContent: 'center' },
   scoreBadge: {
     position: 'absolute', bottom: 6, left: 6,
-    backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 5,
+    backgroundColor: 'rgba(20,10,8,0.75)', borderRadius: 5,
     paddingHorizontal: 6, paddingVertical: 2,
   },
   scoreNum: { fontSize: 12, fontWeight: '800' },

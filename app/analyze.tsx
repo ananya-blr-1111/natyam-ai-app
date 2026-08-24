@@ -14,8 +14,9 @@ import {
   View,
 } from 'react-native';
 
+import { CtaButton } from '@/components/cta-button';
 import {
-  C, analyzeWithClaude, extractFrames, extractScore, saveLocal,
+  C, F, analyzeWithClaude, extractFrames, extractScore, saveLocal,
 } from '@/lib/analysis';
 import { analysisStore } from '@/store/analysisStore';
 
@@ -75,7 +76,7 @@ export default function AnalyzeScreen() {
       {/* Nav bar */}
       <View style={styles.navBar}>
         <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={20} color={C.text} />
+          <Ionicons name="arrow-back" size={20} color={C.maroon} />
         </TouchableOpacity>
         <Text style={styles.navTitle}>New Analysis</Text>
         <View style={{ width: 36 }} />
@@ -91,7 +92,7 @@ export default function AnalyzeScreen() {
             </View>
             <Text style={styles.uploadTitle}>Upload Dance Video</Text>
             <Text style={styles.uploadSub}>
-              Select a Bharatnatyam performance{'\n'}video from your library
+              We'll analyse your posture, mudra, abhinaya{'\n'}and rhythm — right on your phone
             </Text>
             <View style={styles.uploadHint}>
               <Ionicons name="film-outline" size={13} color={C.muted} />
@@ -107,7 +108,7 @@ export default function AnalyzeScreen() {
                 <Text style={styles.previewReadyTxt}>Video Ready</Text>
               </View>
               <TouchableOpacity style={styles.changeBtn} onPress={pickVideo}>
-                <Ionicons name="swap-horizontal-outline" size={14} color={C.purpleLight} />
+                <Ionicons name="swap-horizontal-outline" size={14} color={C.maroon} />
                 <Text style={styles.changeBtnTxt}>Change</Text>
               </TouchableOpacity>
             </View>
@@ -116,28 +117,21 @@ export default function AnalyzeScreen() {
 
         {/* Action */}
         {!analyzing && (
-          <TouchableOpacity
-            style={[styles.actionBtn, !videoUri && styles.actionBtnOutline]}
+          <CtaButton
+            label={videoUri ? 'Analyse My Dance' : 'Select Video'}
+            icon={videoUri ? 'scan-outline' : 'folder-open-outline'}
+            variant={videoUri ? 'primary' : 'outline'}
             onPress={videoUri ? analyze : pickVideo}
-            activeOpacity={0.85}
-          >
-            <Ionicons
-              name={videoUri ? 'scan-outline' : 'folder-open-outline'}
-              size={20}
-              color={videoUri ? C.bg : C.gold}
-            />
-            <Text style={[styles.actionBtnTxt, !videoUri && { color: C.gold }]}>
-              {videoUri ? 'Analyze Posture' : 'Select Video'}
-            </Text>
-          </TouchableOpacity>
+            style={styles.actionBtn}
+          />
         )}
 
         {/* Loading */}
         {analyzing && (
           <View style={styles.loadingBox}>
             <ActivityIndicator size="large" color={C.gold} />
-            <Text style={styles.loadingTxt}>Analyzing your performance...</Text>
-            <Text style={styles.loadingSubTxt}>Extracting frames  ·  Consulting AI teacher</Text>
+            <Text style={styles.loadingTxt}>Analysing your performance...</Text>
+            <Text style={styles.loadingSubTxt}>Extracting frames  ·  Consulting your AI coach</Text>
           </View>
         )}
 
@@ -151,7 +145,7 @@ export default function AnalyzeScreen() {
             'Shoot in portrait mode',
           ].map((tip, i) => (
             <View key={i} style={styles.tipRow}>
-              <Ionicons name="checkmark-circle-outline" size={15} color={C.purple} />
+              <Ionicons name="checkmark-circle-outline" size={15} color={C.maroon} />
               <Text style={styles.tipTxt}>{tip}</Text>
             </View>
           ))}
@@ -170,23 +164,23 @@ const styles = StyleSheet.create({
   },
   backBtn:  {
     width: 36, height: 36, borderRadius: 18,
-    backgroundColor: C.card, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: C.card2, alignItems: 'center', justifyContent: 'center',
   },
-  navTitle: { fontSize: 17, fontWeight: '700', color: C.text },
+  navTitle: { fontSize: 18, fontFamily: F.serifBold, color: C.maroon },
 
   content: { paddingHorizontal: 20, paddingBottom: 60, paddingTop: 8 },
 
   uploadZone: {
-    borderWidth: 1.5, borderColor: C.purple + '60', borderStyle: 'dashed',
+    borderWidth: 1.5, borderColor: C.gold, borderStyle: 'dashed',
     borderRadius: 24, paddingVertical: 48, paddingHorizontal: 24,
-    alignItems: 'center', backgroundColor: C.purpleFaint, marginBottom: 20,
+    alignItems: 'center', backgroundColor: C.card2, marginBottom: 20,
   },
   uploadIconRing: {
     width: 96, height: 96, borderRadius: 48,
-    backgroundColor: C.goldFaint, borderWidth: 1.5, borderColor: C.gold + '40',
+    backgroundColor: C.goldFaint, borderWidth: 1.5, borderColor: C.gold,
     alignItems: 'center', justifyContent: 'center', marginBottom: 20,
   },
-  uploadTitle:   { fontSize: 20, fontWeight: '700', color: C.text, marginBottom: 8 },
+  uploadTitle:   { fontSize: 20, fontFamily: F.serifBold, color: C.text, marginBottom: 8 },
   uploadSub:     { fontSize: 14, color: C.muted, textAlign: 'center', lineHeight: 22, marginBottom: 16 },
   uploadHint:    { flexDirection: 'row', alignItems: 'center', gap: 6 },
   uploadHintTxt: { fontSize: 12, color: C.muted },
@@ -203,32 +197,19 @@ const styles = StyleSheet.create({
   previewReady:    { flexDirection: 'row', alignItems: 'center', gap: 6 },
   previewReadyTxt: { color: C.green, fontSize: 14, fontWeight: '600' },
   changeBtn:       { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  changeBtnTxt:    { color: C.purpleLight, fontSize: 13 },
+  changeBtnTxt:    { color: C.maroon, fontSize: 13, fontWeight: '600' },
 
-  actionBtn: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10,
-    backgroundColor: C.gold, borderRadius: 16, height: 56,
-    borderBottomWidth: 4, borderBottomColor: C.goldDark,
-    shadowColor: C.goldDark, shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 1, shadowRadius: 0, elevation: 8,
-    marginBottom: 28,
-  },
-  actionBtnOutline: {
-    backgroundColor: 'transparent',
-    borderWidth: 1.5, borderColor: C.gold, borderBottomWidth: 1.5,
-    shadowOpacity: 0, elevation: 0,
-  },
-  actionBtnTxt: { fontSize: 17, fontWeight: '800', color: C.bg },
+  actionBtn: { marginBottom: 28, alignSelf: 'stretch' },
 
   loadingBox:    { alignItems: 'center', paddingVertical: 32, marginBottom: 20 },
-  loadingTxt:    { color: C.gold, fontSize: 16, fontWeight: '700', marginTop: 14 },
+  loadingTxt:    { color: C.maroon, fontSize: 16, fontFamily: F.serifBold, marginTop: 14 },
   loadingSubTxt: { color: C.muted, fontSize: 13, marginTop: 6 },
 
   tipsCard:  {
     backgroundColor: C.card, borderRadius: 16, padding: 18,
     borderWidth: 1, borderColor: C.border,
   },
-  tipsTitle: { color: C.textSub, fontSize: 12, fontWeight: '700', letterSpacing: 1.2, marginBottom: 14 },
+  tipsTitle: { color: C.muted, fontSize: 12, fontWeight: '700', letterSpacing: 1.2, marginBottom: 14, textTransform: 'uppercase' },
   tipRow:    { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
-  tipTxt:    { color: C.textSub, fontSize: 14 },
+  tipTxt:    { color: C.text, fontSize: 14 },
 });
