@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "NatyamAnalyzer",
-    "slug": "NatyamAnalyzer",
+    "slug": "natyamai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,9 +9,13 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.natyamai.analyzer",
+      "buildNumber": "1"
     },
     "android": {
+      "package": "com.natyamai.analyzer",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -22,7 +26,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "output": "static",
+      "output": "single",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
@@ -38,11 +42,19 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "2a7fea6d-93b0-40bf-b3d5-e430abdfa225"
+      }
+    },
+    "owner": "ananya67"
   }
 }
