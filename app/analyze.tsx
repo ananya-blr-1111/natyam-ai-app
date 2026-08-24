@@ -92,7 +92,8 @@ export default function AnalyzeScreen() {
             </View>
             <Text style={styles.uploadTitle}>Upload Dance Video</Text>
             <Text style={styles.uploadSub}>
-              We'll analyse your posture, mudra, abhinaya{'\n'}and rhythm — right on your phone
+              Choose a practice clip or performance from your library —{'\n'}
+              your AI coach will watch it and give you feedback in moments
             </Text>
             <View style={styles.uploadHint}>
               <Ionicons name="film-outline" size={13} color={C.muted} />
@@ -135,6 +136,39 @@ export default function AnalyzeScreen() {
           </View>
         )}
 
+        {/* How we analyse */}
+        <View style={styles.analyseCard}>
+          <Text style={styles.analyseTitle}>How NatyamAI Analyses Your Dance</Text>
+          <Text style={styles.analyseIntro}>
+            We sample a handful of frames from your video and have Claude AI —
+            trained to look at your performance the way a teacher would — study
+            them for:
+          </Text>
+          {[
+            { icon: 'body-outline',            title: 'Posture & Mudra', desc: "Body alignment, stance and hand gestures against correct form" },
+            { icon: 'happy-outline',           title: 'Abhinaya',        desc: 'Facial expression and how clearly your emotion (bhava) comes across' },
+            { icon: 'pulse-outline',           title: 'Laya',            desc: 'Rhythmic precision and timing, and where footwork drifts off-beat' },
+            { icon: 'sparkles-outline',        title: 'Personalised Feedback', desc: 'A score, what’s working, and your top 3 things to practise next' },
+          ].map((row, i) => (
+            <View key={i} style={styles.analyseRow}>
+              <View style={styles.analyseIconBox}>
+                <Ionicons name={row.icon as any} size={17} color={C.maroon} />
+              </View>
+              <View style={styles.analyseRowText}>
+                <Text style={styles.analyseRowTitle}>{row.title}</Text>
+                <Text style={styles.analyseRowDesc}>{row.desc}</Text>
+              </View>
+            </View>
+          ))}
+          <View style={styles.privacyNote}>
+            <Ionicons name="lock-closed-outline" size={13} color={C.muted} />
+            <Text style={styles.privacyNoteTxt}>
+              Only a few still frames are sent securely for analysis — your video
+              itself never leaves your phone, and results are saved only on your device.
+            </Text>
+          </View>
+        </View>
+
         {/* Tips */}
         <View style={styles.tipsCard}>
           <Text style={styles.tipsTitle}>For best results</Text>
@@ -143,6 +177,8 @@ export default function AnalyzeScreen() {
             'Good lighting, clear background',
             'Minimum 5 seconds of performance',
             'Shoot in portrait mode',
+            'Face the camera as much as possible',
+            'Avoid busy or moving backgrounds',
           ].map((tip, i) => (
             <View key={i} style={styles.tipRow}>
               <Ionicons name="checkmark-circle-outline" size={15} color={C.maroon} />
@@ -204,6 +240,26 @@ const styles = StyleSheet.create({
   loadingBox:    { alignItems: 'center', paddingVertical: 32, marginBottom: 20 },
   loadingTxt:    { color: C.maroon, fontSize: 16, fontFamily: F.serifBold, marginTop: 14 },
   loadingSubTxt: { color: C.muted, fontSize: 13, marginTop: 6 },
+
+  analyseCard: {
+    backgroundColor: C.card, borderRadius: 18, padding: 18,
+    borderWidth: 1, borderColor: C.goldSoft, marginBottom: 20,
+  },
+  analyseTitle: { fontSize: 17, fontFamily: F.serifBold, color: C.maroon, marginBottom: 8 },
+  analyseIntro: { fontSize: 13, color: C.muted, lineHeight: 19, marginBottom: 16 },
+  analyseRow:   { flexDirection: 'row', gap: 12, marginBottom: 14 },
+  analyseIconBox: {
+    width: 34, height: 34, borderRadius: 10,
+    backgroundColor: C.goldFaint, alignItems: 'center', justifyContent: 'center',
+  },
+  analyseRowText:  { flex: 1 },
+  analyseRowTitle: { fontSize: 14, fontWeight: '700', color: C.text, marginBottom: 2 },
+  analyseRowDesc:  { fontSize: 12.5, color: C.muted, lineHeight: 18 },
+  privacyNote: {
+    flexDirection: 'row', gap: 8, alignItems: 'flex-start',
+    borderTopWidth: 1, borderTopColor: C.border, paddingTop: 14, marginTop: 2,
+  },
+  privacyNoteTxt: { flex: 1, fontSize: 12, color: C.muted, lineHeight: 17 },
 
   tipsCard:  {
     backgroundColor: C.card, borderRadius: 16, padding: 18,
