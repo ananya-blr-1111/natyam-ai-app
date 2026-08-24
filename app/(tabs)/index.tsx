@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -26,14 +27,19 @@ export default function HomeScreen() {
 
   const [history, setHistory] = useState<any[]>([]);
 
-  const loadHistory = useCallback(async () => {
+  const loadHistory = useCallback(() => {
     setHistory(loadLocal());
   }, []);
 
-  useEffect(() => {
-    setupDatabase();
-    loadHistory();
-  }, [loadHistory]);
+  // Reload every time this tab regains focus, not just on first mount —
+  // otherwise a freshly-saved analysis never shows up here after returning
+  // from the analyze/result flow, since expo-router keeps tabs mounted.
+  useFocusEffect(
+    useCallback(() => {
+      setupDatabase();
+      loadHistory();
+    }, [loadHistory])
+  );
 
   const total  = history.length;
   const avg    = total ? Math.round(history.reduce((s, h) => s + h.score, 0) / total) : 0;

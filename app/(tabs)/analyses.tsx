@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -26,14 +27,18 @@ export default function AnalysesScreen() {
   const [loading,    setLoading]    = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const loadHistory = useCallback(async () => {
+  const loadHistory = useCallback(() => {
     setHistory(loadLocal());
   }, []);
 
-  useEffect(() => {
-    setupDatabase();
-    loadHistory().finally(() => setLoading(false));
-  }, [loadHistory]);
+  // Reload every time this tab regains focus (see index.tsx for why).
+  useFocusEffect(
+    useCallback(() => {
+      setupDatabase();
+      loadHistory();
+      setLoading(false);
+    }, [loadHistory])
+  );
 
   const onRefresh = async () => {
     setRefreshing(true);
