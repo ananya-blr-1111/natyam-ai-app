@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 
+import { AnimatedPressable } from '@/components/animated-pressable';
 import { CtaButton } from '@/components/cta-button';
 import {
   C, F, loadLocal,
@@ -19,9 +20,10 @@ import {
 } from '@/lib/analysis';
 import { analysisStore } from '@/store/analysisStore';
 
-const NatyamAILogo = require('@/assets/images/natyam-logo-white.png');
+const NatyamAILogo   = require('@/assets/images/natyam-logo-white.png');
+const AnanyaPortrait = require('@/assets/images/ananya-portrait.webp');
 const { width } = Dimensions.get('window');
-const TILE = Math.floor((width - 2) / 3);
+const TILE = 96;
 
 export default function HomeScreen() {
   const router    = useRouter();
@@ -45,7 +47,7 @@ export default function HomeScreen() {
   const total  = history.length;
   const avg    = total ? Math.round(history.reduce((s, h) => s + h.score, 0) / total) : 0;
   const best   = total ? Math.max(...history.map(h => h.score)) : 0;
-  const recent = history.slice(0, 6);
+  const recent = history.slice(0, 8);
 
   const openResult = (item: any) => {
     analysisStore.set({
@@ -57,7 +59,12 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.root}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      {/* Big faded background logo watermark */}
+      <View style={styles.bgLogoWrap} pointerEvents="none">
+        <Image source={NatyamAILogo} style={styles.bgLogo} />
+      </View>
+
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 
         {/* ── Header ── */}
         <View style={styles.header}>
@@ -67,65 +74,70 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* ── Profile strip (Instagram-style) ── */}
-        <View style={styles.profileStrip}>
-          <View style={styles.avatarRing}>
-            <Image source={NatyamAILogo} style={styles.avatar} resizeMode="cover" />
+        {/* ── About the creator ── */}
+        <AnimatedPressable onPress={() => router.push('/(tabs)/author')} style={styles.creatorCard}>
+          <Image source={AnanyaPortrait} style={styles.creatorPhoto} />
+          <View style={styles.creatorText}>
+            <Text style={styles.creatorName}>Ananya Sharma</Text>
+            <Text style={styles.creatorRole}>Bharatanatyam dancer & creator of NatyamAI</Text>
           </View>
-          <View style={styles.statsRow}>
-            <View style={styles.statItem}>
-              <Text style={styles.statNum}>{total}</Text>
-              <Text style={styles.statLbl}>Sessions</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={[styles.statNum, total > 0 && { color: scoreColor(avg) }]}>{avg}</Text>
-              <Text style={styles.statLbl}>Avg Score</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={[styles.statNum, total > 0 && { color: C.green }]}>{best}</Text>
-              <Text style={styles.statLbl}>Best</Text>
-            </View>
+          <Ionicons name="chevron-forward" size={18} color={C.muted} />
+        </AnimatedPressable>
+
+        {/* ── Purpose ── */}
+        <View style={styles.purposeSection}>
+          <Text style={styles.purposeTitle}>An AI Dance Coach in Your Pocket</Text>
+          <Text style={styles.purposeText}>
+            NatyamAI gives Bharatanatyam students instant, encouraging feedback on
+            their <Text style={styles.hl}>posture &amp; mudra</Text>,{' '}
+            <Text style={styles.hl}>abhinaya</Text> and <Text style={styles.hl}>laya</Text> —
+            built by a dancer, for dancers. No login, no cloud — every video and
+            analysis stays private on your own phone.
+          </Text>
+        </View>
+
+        {/* ── Stats ── */}
+        <View style={styles.statsCard}>
+          <View style={styles.statItem}>
+            <Text style={styles.statNum}>{total}</Text>
+            <Text style={styles.statLbl}>Sessions</Text>
+          </View>
+          <View style={styles.statDivider} />
+          <View style={styles.statItem}>
+            <Text style={[styles.statNum, total > 0 && { color: scoreColor(avg) }]}>{avg}</Text>
+            <Text style={styles.statLbl}>Avg Score</Text>
+          </View>
+          <View style={styles.statDivider} />
+          <View style={styles.statItem}>
+            <Text style={[styles.statNum, total > 0 && { color: C.green }]}>{best}</Text>
+            <Text style={styles.statLbl}>Best</Text>
           </View>
         </View>
 
-        {/* ── Bio ── */}
-        <View style={styles.bioSection}>
-          <Text style={styles.bioTitle}>Bharatanatyam AI Coach</Text>
-          <Text style={styles.bioText}>AI feedback on your posture, mudra, abhinaya & rhythm</Text>
-          <CtaButton
-            label="New Analysis"
-            icon="add-circle-outline"
-            onPress={() => router.push('/analyze')}
-            style={styles.analyzeBtn}
-          />
-        </View>
+        <CtaButton
+          label="New Analysis"
+          icon="add-circle-outline"
+          onPress={() => router.push('/analyze')}
+          style={styles.analyzeBtn}
+        />
 
-        {/* ── Grid toggle bar ── */}
-        <View style={styles.toggleBar}>
-          <View style={styles.toggleActive}>
-            <Ionicons name="grid-outline" size={20} color={C.maroon} />
-          </View>
-          <TouchableOpacity
-            style={styles.toggleInactive}
-            onPress={() => router.push('/(tabs)/analyses')}
-          >
-            <Ionicons name="list-outline" size={22} color={C.muted} />
-          </TouchableOpacity>
-        </View>
-
-        {/* ── Grid content ── */}
-        {total > 0 ? (
-          <>
-            {recent.length > 3 && (
-              <View style={styles.seeAllRow}>
-                <TouchableOpacity onPress={() => router.push('/(tabs)/analyses')}>
-                  <Text style={styles.seeAllLink}>See all {total} analyses →</Text>
-                </TouchableOpacity>
-              </View>
+        {/* ── Recent analyses (compact strip) ── */}
+        <View style={styles.recentSection}>
+          <View style={styles.recentHeader}>
+            <Text style={styles.recentTitle}>Recent Analyses</Text>
+            {total > 0 && (
+              <TouchableOpacity onPress={() => router.push('/(tabs)/analyses')}>
+                <Text style={styles.seeAllLink}>See all →</Text>
+              </TouchableOpacity>
             )}
-            <View style={styles.grid}>
+          </View>
+
+          {total > 0 ? (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentStrip}
+            >
               {recent.map((item, idx) => (
                 <TouchableOpacity
                   key={item.id ?? idx}
@@ -136,7 +148,7 @@ export default function HomeScreen() {
                   {item.thumbnail
                     ? <Image source={{ uri: item.thumbnail }} style={styles.tileImg} />
                     : <View style={[styles.tileImg, styles.tileEmpty]}>
-                        <Ionicons name="film-outline" size={22} color={C.border} />
+                        <Ionicons name="film-outline" size={20} color={C.border} />
                       </View>
                   }
                   <View style={styles.scoreBadge}>
@@ -146,15 +158,14 @@ export default function HomeScreen() {
                   </View>
                 </TouchableOpacity>
               ))}
+            </ScrollView>
+          ) : (
+            <View style={styles.emptyState}>
+              <Ionicons name="videocam-outline" size={40} color={C.border} />
+              <Text style={styles.emptySub}>Your analyses will appear here</Text>
             </View>
-          </>
-        ) : (
-          <View style={styles.emptyState}>
-            <Ionicons name="videocam-outline" size={56} color={C.border} />
-            <Text style={styles.emptyTitle}>No analyses yet</Text>
-            <Text style={styles.emptySub}>Tap the + below to upload your first dance video</Text>
-          </View>
-        )}
+          )}
+        </View>
 
       </ScrollView>
     </View>
@@ -163,86 +174,82 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: C.bg },
+  scrollContent: { flexGrow: 1 },
+
+  bgLogoWrap: {
+    position: 'absolute', top: -60, right: -140,
+  },
+  bgLogo: {
+    width: width * 1.1, height: width * 1.1,
+    opacity: 0.07,
+  },
 
   // Header
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingTop: 58, paddingHorizontal: 16, paddingBottom: 10,
+    paddingTop: 58, paddingHorizontal: 16, paddingBottom: 14,
   },
   logoText: { fontSize: 28, fontFamily: F.serifBold, color: C.maroon, letterSpacing: 0.5 },
   iconBtn:  { padding: 4 },
 
-  // Profile strip
-  profileStrip: {
-    flexDirection: 'row', alignItems: 'center',
-    paddingHorizontal: 16, paddingVertical: 12, gap: 16,
+  // Creator card
+  creatorCard: {
+    flexDirection: 'row', alignItems: 'center', gap: 12,
+    marginHorizontal: 16, marginBottom: 20,
+    backgroundColor: C.card, borderRadius: 18, padding: 12,
+    borderWidth: 1, borderColor: C.goldSoft,
   },
-  avatarRing: {
-    width: 84, height: 84, borderRadius: 42,
-    padding: 2,
+  creatorPhoto: {
+    width: 56, height: 56, borderRadius: 28,
     borderWidth: 2, borderColor: C.gold,
-    alignItems: 'center', justifyContent: 'center',
   },
-  avatar: { width: 76, height: 76, borderRadius: 38 },
-  statsRow: {
-    flex: 1, flexDirection: 'row',
-    alignItems: 'center', justifyContent: 'space-around',
+  creatorText: { flex: 1 },
+  creatorName: { fontSize: 16, fontFamily: F.serifBold, color: C.text },
+  creatorRole: { fontSize: 12, color: C.muted, marginTop: 2 },
+
+  // Purpose
+  purposeSection: { paddingHorizontal: 16, marginBottom: 20 },
+  purposeTitle: { fontSize: 21, fontFamily: F.serifBold, color: C.maroon, marginBottom: 8 },
+  purposeText:  { fontSize: 14, color: C.text, lineHeight: 21 },
+  hl: { color: C.goldText, fontWeight: '700' },
+
+  // Stats
+  statsCard: {
+    flexDirection: 'row', alignItems: 'center',
+    marginHorizontal: 16, marginBottom: 16,
+    backgroundColor: C.card2, borderRadius: 16, paddingVertical: 16,
+    borderWidth: 1, borderColor: C.border,
   },
-  statItem:    { alignItems: 'center', gap: 3 },
+  statItem:    { flex: 1, alignItems: 'center', gap: 3 },
   statNum:     { fontSize: 22, fontFamily: F.serifBold, color: C.text },
   statLbl:     { fontSize: 11, color: C.muted, fontWeight: '500' },
   statDivider: { width: 1, height: 30, backgroundColor: C.border },
 
-  // Bio
-  bioSection: { paddingHorizontal: 16, paddingBottom: 18, gap: 3 },
-  bioTitle:   { fontSize: 15, fontWeight: '700', color: C.text },
-  bioText:    { fontSize: 13, color: C.muted, fontStyle: 'italic', lineHeight: 19, marginBottom: 4 },
-  analyzeBtn: { alignSelf: 'flex-start', height: 40, paddingHorizontal: 20, marginTop: 8 },
+  analyzeBtn: { marginHorizontal: 16, marginBottom: 28, alignSelf: 'stretch' },
 
-  // Toggle bar (like Instagram's grid/tag toggle)
-  toggleBar: {
-    flexDirection: 'row',
-    borderTopWidth: 0.5, borderTopColor: C.border,
-    borderBottomWidth: 0.5, borderBottomColor: C.border,
-    height: 44, alignItems: 'center',
-    marginBottom: 1,
+  // Recent strip (~bottom portion)
+  recentSection: {
+    borderTopWidth: 1, borderTopColor: C.border,
+    paddingTop: 16, paddingBottom: 24,
   },
-  toggleActive: {
-    flex: 1, alignItems: 'center', justifyContent: 'center',
-    borderBottomWidth: 1.5, borderBottomColor: C.maroon, height: '100%',
+  recentHeader: {
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    paddingHorizontal: 16, marginBottom: 10,
   },
-  toggleInactive: {
-    flex: 1, alignItems: 'center', justifyContent: 'center',
-    height: '100%',
-  },
+  recentTitle: { fontSize: 13, fontWeight: '700', color: C.muted, letterSpacing: 1, textTransform: 'uppercase' },
+  seeAllLink:  { fontSize: 13, color: C.goldText, fontWeight: '600' },
 
-  seeAllRow: {
-    paddingHorizontal: 16, paddingVertical: 10,
-    alignItems: 'flex-end',
-  },
-  seeAllLink: { fontSize: 13, color: C.goldText, fontWeight: '600' },
-
-  // Instagram grid
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 1,
-  },
-  tile:      { width: TILE, height: TILE, position: 'relative' },
+  recentStrip: { paddingHorizontal: 16, gap: 8 },
+  tile:      { width: TILE, height: TILE, position: 'relative', borderRadius: 10, overflow: 'hidden' },
   tileImg:   { width: TILE, height: TILE },
   tileEmpty: { backgroundColor: C.card2, alignItems: 'center', justifyContent: 'center' },
   scoreBadge: {
-    position: 'absolute', bottom: 6, left: 6,
+    position: 'absolute', bottom: 5, left: 5,
     backgroundColor: 'rgba(20,10,8,0.75)', borderRadius: 5,
-    paddingHorizontal: 6, paddingVertical: 2,
+    paddingHorizontal: 5, paddingVertical: 2,
   },
-  scoreNum: { fontSize: 13, fontWeight: '800' },
+  scoreNum: { fontSize: 11, fontWeight: '800' },
 
-  // Empty state
-  emptyState: {
-    alignItems: 'center', paddingTop: 60, paddingBottom: 48, gap: 12,
-    paddingHorizontal: 32,
-  },
-  emptyTitle: { fontSize: 18, fontFamily: F.serifBold, color: C.text },
-  emptySub:   { fontSize: 14, color: C.muted, textAlign: 'center', lineHeight: 21 },
+  emptyState: { alignItems: 'center', paddingVertical: 18, gap: 8 },
+  emptySub:   { fontSize: 13, color: C.muted },
 });

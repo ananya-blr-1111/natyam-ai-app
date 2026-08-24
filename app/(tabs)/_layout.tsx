@@ -14,7 +14,7 @@ function UploadTabButton() {
       activeOpacity={0.75}
     >
       <View style={styles.uploadBtn}>
-        <Ionicons name="add" size={26} color={C.maroonDeep} />
+        <Ionicons name="add" size={26} color={C.gold} />
       </View>
     </TouchableOpacity>
   );
@@ -62,10 +62,18 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="author"
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'body' : 'body-outline'} size={23} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="info"
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'person-circle' : 'person-circle-outline'} size={26} color={color} />
+            <Ionicons name={focused ? 'settings' : 'settings-outline'} size={22} color={color} />
           ),
         }}
       />
@@ -84,10 +92,10 @@ const styles = StyleSheet.create({
     width: 46,
     height: 32,
     borderRadius: 9,
-    backgroundColor: C.gold,
+    backgroundColor: C.maroon,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1.5,
-    borderColor: C.maroon,
+    borderColor: C.goldSoft,
   },
 });

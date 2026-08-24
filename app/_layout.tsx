@@ -51,9 +51,9 @@ export default function RootLayout() {
     <ThemeProvider value={NatyamTheme}>
       <Stack>
         <Stack.Screen name="(tabs)"      options={{ headerShown: false }} />
-        <Stack.Screen name="analyze"     options={{ headerShown: false }} />
-        <Stack.Screen name="result"      options={{ headerShown: false }} />
-        <Stack.Screen name="info-detail" options={{ headerShown: false }} />
+        <Stack.Screen name="analyze"     options={{ headerShown: false, animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="result"      options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="info-detail" options={{ headerShown: false, animation: 'fade' }} />
         <Stack.Screen name="modal"       options={{ presentation: 'modal' }} />
       </Stack>
       <StatusBar style="dark" />

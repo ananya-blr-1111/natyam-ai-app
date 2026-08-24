@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 
+import { AnimatedPressable } from '@/components/animated-pressable';
 import { CtaButton } from '@/components/cta-button';
 import {
   C, F, formatDate, parseSection, parseSummary, scoreColor, scoreLabel,
@@ -97,10 +98,10 @@ export default function ResultScreen() {
         {/* ── Share card (screenshot-friendly) ── */}
         <View style={styles.shareCard}>
           <View style={styles.shareCardTop}>
-            <View style={styles.shareCardBrand}>
+            <AnimatedPressable onPress={() => router.push('/(tabs)')} style={styles.shareCardBrand}>
               <Image source={NatyamAILogo} style={styles.shareCardLogoImg} />
               <Text style={styles.shareCardLogo}>NatyamAI</Text>
-            </View>
+            </AnimatedPressable>
             <Text style={styles.shareCardDate}>{formatDate(created_at)}</Text>
           </View>
 

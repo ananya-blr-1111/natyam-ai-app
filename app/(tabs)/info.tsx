@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 
+import { AnimatedPressable } from '@/components/animated-pressable';
 import { C, F } from '@/lib/analysis';
 
 const NatyamAILogo = require('@/assets/images/natyam-logo-black.png');
@@ -36,7 +37,9 @@ export default function AccountScreen() {
         {/* ── Profile cover (maroon hero band, matching natyam.dance) ── */}
         <View style={styles.cover}>
           <View style={styles.coverGradient} />
-          <Image source={NatyamAILogo} style={styles.coverLogo} resizeMode="cover" />
+          <AnimatedPressable onPress={() => router.push('/(tabs)/author')} style={styles.coverLogoWrap}>
+            <Image source={NatyamAILogo} style={styles.coverLogo} resizeMode="cover" />
+          </AnimatedPressable>
           <View style={styles.avatarWrap}>
             <View style={styles.avatar}>
               <Ionicons name="person" size={28} color={C.gold} />
@@ -109,8 +112,10 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: C.maroon,
   },
-  coverLogo: {
+  coverLogoWrap: {
     position: 'absolute', top: 52, left: 20,
+  },
+  coverLogo: {
     width: 64, height: 64, borderRadius: 16,
     borderWidth: 1, borderColor: 'rgba(227,194,122,0.4)',
   },
